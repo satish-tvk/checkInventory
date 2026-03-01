@@ -1,3 +1,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  * { scroll-behavior: smooth; }
+  body { @apply bg-navy-900 text-white antialiased; }
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+  .glass-gold {
+    background: rgba(198,167,94,0.09);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(198,167,94,0.24);
+  }
+  .glass-dark {
+    background: rgba(13,30,47,0.82);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.09);
+  }
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #C6A75E 0%, #E8D5A0 50%, #C6A75E 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .glow-gold     { box-shadow: 0 0 40px rgba(198,167,94,0.30); }
+  .glow-gold-sm  { box-shadow: 0 0 18px rgba(198,167,94,0.20); }
+  .glow-gold-lg  { box-shadow: 0 0 80px rgba(198,167,94,0.40); }
+  .border-gold        { border: 1px solid rgba(198,167,94,0.30); }
+  .border-gold-bright { border: 1px solid rgba(198,167,94,0.60); }
+  .shimmer-effect {
+    background: linear-gradient(90deg, transparent 0%, rgba(198,167,94,0.12) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s infinite;
+  }
+  .section-pad   { @apply py-24 px-6; }
+  .container-xl  { @apply max-w-7xl mx-auto; }
+}

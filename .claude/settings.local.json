@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm audit)",
+      "Bash(npm install next@16 eslint-config-next@16 eslint@^9)",
+      "Bash(npm run dev)",
+      "Bash(npm install @tavily/core)",
+      "Skill(claude-developer-platform)",
+      "Skill(claude-developer-platform:*)",
+      "Bash(curl -s http://localhost:3000/vendors/discover --max-time 10)",
+      "Bash(curl -s -X POST http://localhost:3000/api/vendors/audit -H \"Content-Type: application/json\" -d '{\"\"vendors\"\":[]}')",
+      "Bash(npx tsc --noEmit --skipLibCheck)",
+      "Bash(py --version)",
+      "Bash(where py)",
+      "Read(//c/Users/tvksa/AppData/Local/Programs/**)",
+      "Bash(winget list Python)",
+      "Bash(/c/Users/tvksa/AppData/Local/Microsoft/WindowsApps/python.exe --version)",
+      "Bash(taskkill /F /IM python.exe /T)",
+      "Bash(taskkill //F //IM python.exe //T)",
+      "Bash(PATH=\"/c/Users/tvksa/AppData/Local/Programs/Python/Python312:$PATH\" python -c \":*)",
+      "Bash(curl -s -X POST http://127.0.0.1:8000/api/profiles -H \"Content-Type: application/json\" -d '{\"\"businessName\"\":\"\"Test Co\"\",\"\"ownerName\"\":\"\"Jane\"\",\"\"industry\"\":\"\"Technology & Software\"\",\"\"businessType\"\":\"\"llc\"\",\"\"addressCountry\"\":\"\"US\"\",\"\"addressState\"\":\"\"CA\"\",\"\"addressCity\"\":\"\"San Francisco\"\",\"\"yearsInOperation\"\":\"\"1-3\"\",\"\"employeeCount\"\":\"\"2-10\"\",\"\"annualRevenue\"\":\"\"100k-500k\"\",\"\"operatingLocations\"\":\"\"single\"\",\"\"supplierCount\"\":\"\"1-5\"\",\"\"procurementCategories\"\":[\"\"IT & Software\"\"],\"\"monthlySpend\"\":\"\"under10k\"\",\"\"sourcingRegions\"\":[\"\"United States\"\"],\"\"supplyChainConcerns\"\":[\"\"reliability\"\"],\"\"currentRiskMethod\"\":\"\"spreadsheet\"\",\"\"primaryGoals\"\":[\"\"monitor\"\"]}')",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(''id:'', d.get\\(''id''\\), ''| archetype:'', d.get\\(''business_archetype''\\)\\)\")"
+    ]
+  }
+}

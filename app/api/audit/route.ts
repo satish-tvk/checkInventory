@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import Papa from "papaparse";
 import type { SupplierInput, AuditReport } from "@/lib/types";
 import { MOCK_AUDIT_REPORT } from "@/lib/mockData";
+import { runAuditAgent } from "@/lib/auditAgent";
 
 const ALLOWED_FIELDS = ["name", "category", "spend_pct", "country"] as const;
 const MAX_ROWS = 10;
@@ -86,19 +87,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(mock);
   }
 
-  // TODO (step 4): replace with real GPT-4o call
-  // For now return a placeholder so the round-trip works
-  const report: AuditReport = {
-    overall_score: 0,
-    ratings: suppliers.map((s) => ({
-      name: s.name,
-      color: "YELLOW" as const,
-      reason: "GPT integration not yet wired up.",
-      backups: [],
-    })),
-    generated_at: new Date().toISOString(),
-    request_id: uuidv4(),
-  };
-
-  return NextResponse.json(report);
+  const requestId = uuidv4();
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return NextResponse.json({ error: "ANTHROPIC_API_KEY is not configured." }, { status: 500 });
+  }
+  if (!process.env.MISTRAL_API_KEY) {
+    return NextResponse.json({ error: "MISTRAL_API_KEY is not configured." }, { status: 500 });
+  }
+  if (!process.env.TAVILY_API_KEY) {
+    return NextResponse.json({ error: "TAVILY_API_KEY is not configured." }, { status: 500 });
+  }
+  try {
+    const report = await runAuditAgent(suppliers, requestId);
+    return NextResponse.json(report);
+  } catch (err) {
+    console.error("Audit agent error:", err);
+    return NextResponse.json(
+      { error: "Audit failed. Check server logs for details." },
+      { status: 500 }
+    );
+  }
 }

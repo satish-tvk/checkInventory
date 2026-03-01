@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(winget install --id Python.Python.3.12 --silent --accept-package-agreements --accept-source-agreements)"
+    ]
+  }
+}
