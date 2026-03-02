@@ -4,27 +4,28 @@
 
 @layer base {
   * { scroll-behavior: smooth; }
-  body { @apply bg-navy-900 text-white antialiased; }
+  body { @apply bg-navy-800 text-white antialiased font-sans; }
+  h1, h2, h3, h4, h5, h6 { @apply font-serif; }
 }
 
 @layer utilities {
   .glass {
-    background: rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.10);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.16);
   }
   .glass-gold {
-    background: rgba(198,167,94,0.09);
+    background: rgba(198,167,94,0.12);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(198,167,94,0.24);
+    border: 1px solid rgba(198,167,94,0.30);
   }
   .glass-dark {
-    background: rgba(13,30,47,0.82);
+    background: rgba(27,51,82,0.82);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.14);
   }
   .text-gold-gradient {
     background: linear-gradient(135deg, #C6A75E 0%, #E8D5A0 50%, #C6A75E 100%);

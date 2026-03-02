@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${cormorant.variable} ${manrope.variable}`}>
-      <body className="bg-navy-900 text-white antialiased font-sans">
+      <body className="bg-navy-800 text-white antialiased font-sans">
         <Navbar />
         {children}
         <Footer />
