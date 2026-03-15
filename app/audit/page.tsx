@@ -6,6 +6,7 @@ import ReportCard from "@/components/ReportCard";
 import ErrorBanner from "@/components/ErrorBanner";
 import VendorDiscoverPanel from "@/components/VendorDiscoverPanel";
 import type { AuditReport } from "@/lib/types";
+import { useAuth } from "@/contexts/AuthContext";
 
 const HOW_IT_WORKS = [
   { step: "01", label: "Input Data",  desc: "Upload your supplier CSV — name, category, spend, country.", color: "bg-brand-600" },
@@ -14,6 +15,7 @@ const HOW_IT_WORKS = [
 ];
 
 export default function AuditPage() {
+  const { profile } = useAuth();
   const [loading,   setLoading]   = useState(false);
   const [report,    setReport]    = useState<AuditReport | null>(null);
   const [error,     setError]     = useState<string | null>(null);
@@ -50,8 +52,9 @@ export default function AuditPage() {
             Supply Risk Auditor
           </h1>
           <p className="text-ink/65 text-base max-w-xl leading-relaxed">
-            Upload your supplier list or discover new vendors to get an instant AI-driven
-            risk assessment with backup vendor recommendations.
+            {profile?.business_name
+              ? `Auditing suppliers for ${profile.business_name} — upload your list or discover new vendors.`
+              : "Upload your supplier list or discover new vendors to get an instant AI-driven risk assessment with backup vendor recommendations."}
           </p>
 
           {/* Colorful underline tabs */}

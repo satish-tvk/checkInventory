@@ -22,7 +22,7 @@ const modules = [
     title:       "Competitor Analysis",
     description: "Map local competitors around your business location and surface strategic threats and opportunities.",
     href:        "/competitors",
-    tag:         "Mistral + Tavily",
+    tag:         "Market Intel",
     icon:        "📊",
     accent: {
       tag:   "bg-brand-100 text-brand-700 border border-brand-200",
@@ -87,7 +87,7 @@ const capabilities = [
   { label: "Unified Workflow",       cls: "bg-brand-100 text-brand-700 border border-brand-200" },
   { label: "Review Validation",      cls: "bg-teal-100 text-teal-700 border border-teal-200"   },
   { label: "Location Intelligence",  cls: "bg-sky-100 text-sky-700 border border-sky-200"       },
-  { label: "Mistral + Tavily AI",    cls: "bg-amber-100 text-amber-700 border border-amber-200" },
+  { label: "Competitor Intelligence", cls: "bg-amber-100 text-amber-700 border border-amber-200" },
 ];
 
 const testimonialAccents = [

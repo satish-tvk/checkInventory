@@ -18,6 +18,10 @@ export default function Navbar() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
+  const visibleLinks = user
+    ? navLinks
+    : navLinks.filter((l) => l.href !== "/competitors" && l.href !== "/audit");
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
     window.addEventListener("scroll", onScroll);
@@ -46,7 +50,7 @@ export default function Navbar() {
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-0.5">
-          {navLinks.map((link) => (
+          {visibleLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -116,7 +120,7 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="md:hidden bg-white border-t border-ink/[0.07] px-6 py-4 shadow-card-lg">
           <div className="space-y-0.5 mb-4">
-            {navLinks.map((link) => (
+            {visibleLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}

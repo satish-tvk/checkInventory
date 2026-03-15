@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { City, Country, State } from "country-state-city";
 import type { CompetitorAnalysisResult } from "@/lib/mistralCompetitorAgent";
+import { useAuth } from "@/contexts/AuthContext";
 
 const PRIORITY_COUNTRIES = ["US", "GB", "CA", "AU", "DE", "FR", "IN", "SG", "JP", "AE"];
 
@@ -32,6 +33,7 @@ function scoreColor(score: number) {
 }
 
 export default function CompetitorAnalysisPage() {
+  const { profile } = useAuth();
   const [businessName,    setBusinessName]    = useState("");
   const [industry,        setIndustry]        = useState("");
   const [countryCode,     setCountryCode]     = useState("US");
@@ -65,6 +67,11 @@ export default function CompetitorAnalysisPage() {
     businessName.trim().length > 0 &&
     industry.trim().length > 0 &&
     stateCode.trim().length > 0;
+
+  useEffect(() => {
+    if (profile?.business_name) setBusinessName(profile.business_name);
+    if (profile?.industry)      setIndustry(profile.industry);
+  }, [profile]);
 
   useEffect(() => {
     const raw = localStorage.getItem("onestopsmb_business_address");
@@ -109,7 +116,7 @@ export default function CompetitorAnalysisPage() {
       {/* ── Page header ── */}
       <div className="bg-white border-b border-ink/[0.07] px-6 py-14" style={{ boxShadow: "0 1px 0 rgba(19,16,58,0.06)" }}>
         <div className="max-w-6xl mx-auto">
-          <span className="tag-brand mb-5 inline-flex">Mistral Agent + Tavily</span>
+          <span className="tag-brand mb-5 inline-flex">Competitor Intelligence</span>
           <h1 className="font-serif text-5xl lg:text-6xl font-semibold text-ink leading-tight mb-4">
             Competitor Analysis
           </h1>

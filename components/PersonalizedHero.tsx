@@ -32,26 +32,14 @@ export default function PersonalizedHero() {
 
         <div className="flex flex-wrap gap-3 mt-10">
           <Link
-            href="/vendors/discover"
+            href="/login"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-ink font-semibold text-sm transition-all duration-150"
             style={{ background: "linear-gradient(135deg, #0D5CFF, #0046D6)", boxShadow: "0 4px 20px rgba(13,92,255,0.40)" }}
           >
-            Start discovering
+            Sign in to get started
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
-          </Link>
-          <Link
-            href="/audit"
-            className="px-5 py-2.5 rounded-xl border border-teal-200 bg-teal-50 text-teal-700 font-semibold text-sm hover:bg-teal-100 transition-all duration-150"
-          >
-            Run risk audit
-          </Link>
-          <Link
-            href="/competitors"
-            className="px-5 py-2.5 rounded-xl border border-ink/[0.20] text-ink/65 font-medium text-sm hover:text-ink hover:border-ink/35 transition-all duration-150"
-          >
-            Analyze competitors
           </Link>
         </div>
 
