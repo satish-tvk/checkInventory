@@ -56,18 +56,18 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
   const riskBadge = vendor.riskLevel === "LOW"
     ? "bg-gold/15 text-gold border-gold/40"
     : vendor.riskLevel === "MEDIUM"
-    ? "bg-white/10 text-white/70 border-white/20"
-    : "bg-white/5 text-white/50 border-white/10";
+    ? "bg-white/10 text-black/70 border-white/20"
+    : "bg-white/5 text-black/50 border-white/10";
 
   return (
     <main className="min-h-screen pt-24 pb-16 px-6">
       <div className="max-w-6xl mx-auto">
 
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-white/30 text-sm mb-8">
+        <div className="flex items-center gap-2 text-black/30 text-sm mb-8">
           <Link href="/vendors" className="hover:text-gold transition-colors">Vendors</Link>
           <span>/</span>
-          <span className="text-white/60">{vendor.name}</span>
+          <span className="text-black/60">{vendor.name}</span>
         </div>
 
         {/* Hero header */}
@@ -81,24 +81,24 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
             {/* Info */}
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-3 mb-3">
-                <h1 className="font-serif text-3xl lg:text-4xl font-bold text-white">{vendor.name}</h1>
+                <h1 className="font-serif text-3xl lg:text-4xl font-bold text-black">{vendor.name}</h1>
                 <span className={`px-3 py-1 rounded-full text-xs font-bold border ${riskBadge}`}>{riskLabel}</span>
                 {vendor.compliance.length > 0 && <span className="px-3 py-1 rounded-full text-xs font-semibold bg-gold/10 text-gold border border-gold/25">✓ Verified</span>}
               </div>
-              <div className="flex flex-wrap gap-5 text-sm text-white/45 mb-4">
+              <div className="flex flex-wrap gap-5 text-sm text-black/45 mb-4">
                 <span>📂 {vendor.category}</span>
                 <span>📍 {vendor.location}</span>
                 <span>🏢 {vendor.employees} employees</span>
                 <span>📅 {vendor.yearsInBusiness} years in business</span>
                 <span>💰 {vendor.revenue} revenue</span>
               </div>
-              <p className="text-white/50 text-sm leading-relaxed max-w-2xl">{vendor.description}</p>
+              <p className="text-black/50 text-sm leading-relaxed max-w-2xl">{vendor.description}</p>
             </div>
 
             {/* CTA actions */}
             <div className="flex flex-col gap-3 shrink-0">
               <Link href="/compare" className="px-6 py-2.5 rounded-xl bg-gold text-navy-900 text-sm font-semibold hover:bg-gold-300 transition-all glow-gold-sm text-center">Compare</Link>
-              <Link href="/audit"   className="px-6 py-2.5 rounded-xl glass border-gold text-white text-sm font-semibold hover:bg-white/5 transition-all text-center">Run Audit</Link>
+              <Link href="/audit"   className="px-6 py-2.5 rounded-xl glass border-gold text-black text-sm font-semibold hover:bg-white/5 transition-all text-center">Run Audit</Link>
             </div>
           </div>
         </div>
@@ -110,7 +110,7 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
           <div className="space-y-5">
             {/* Gauge card */}
             <div className="glass-gold border-gold rounded-2xl p-6 text-center glow-gold">
-              <p className="text-white/40 text-xs uppercase tracking-widest mb-4">Overall Risk Score</p>
+              <p className="text-black/40 text-xs uppercase tracking-widest mb-4">Overall Risk Score</p>
               <div className="flex justify-center mb-2">
                 <RiskGauge score={vendor.riskScore}/>
               </div>
@@ -119,7 +119,7 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
 
             {/* Key metrics */}
             <div className="glass border border-white/5 rounded-2xl p-5 space-y-4">
-              <p className="text-white/30 text-xs uppercase tracking-widest">Key Metrics</p>
+              <p className="text-black/30 text-xs uppercase tracking-widest">Key Metrics</p>
               {[
                 {label:"Reliability Score",     value:`${vendor.reliabilityScore}%`, pct:vendor.reliabilityScore},
                 {label:"Financial Stability",   value:`${vendor.financialStability}%`, pct:vendor.financialStability},
@@ -127,7 +127,7 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
               ].map((m) => (
                 <div key={m.label}>
                   <div className="flex justify-between text-xs mb-1.5">
-                    <span className="text-white/45">{m.label}</span>
+                    <span className="text-black/45">{m.label}</span>
                     <span className="text-gold font-semibold">{m.value}</span>
                   </div>
                   <div className="h-1.5 rounded-full bg-white/5">
@@ -139,14 +139,14 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
 
             {/* Legal */}
             <div className="glass border border-white/5 rounded-2xl p-5">
-              <p className="text-white/30 text-xs uppercase tracking-widest mb-3">Legal Status</p>
+              <p className="text-black/30 text-xs uppercase tracking-widest mb-3">Legal Status</p>
               <div className="flex items-center justify-between">
-                <span className="text-white/55 text-sm">Active Disputes</span>
-                <span className={`font-bold text-xl font-serif ${vendor.legalDisputes === 0 ? "text-gold" : "text-white/60"}`}>
+                <span className="text-black/55 text-sm">Active Disputes</span>
+                <span className={`font-bold text-xl font-serif ${vendor.legalDisputes === 0 ? "text-gold" : "text-black/60"}`}>
                   {vendor.legalDisputes}
                 </span>
               </div>
-              <p className="text-white/25 text-xs mt-2">
+              <p className="text-black/25 text-xs mt-2">
                 {vendor.legalDisputes === 0 ? "✓ No known legal disputes" : `⚠ ${vendor.legalDisputes} dispute(s) on record`}
               </p>
             </div>
@@ -158,25 +158,25 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
             <div className="glass border border-white/5 rounded-2xl p-6">
               <div className="flex items-center justify-between mb-5">
                 <div>
-                  <p className="text-white font-semibold">Risk Trend Analysis</p>
-                  <p className="text-white/35 text-xs mt-0.5">Last 7 months · Lower score = safer</p>
+                  <p className="text-black font-semibold">Risk Trend Analysis</p>
+                  <p className="text-black/35 text-xs mt-0.5">Last 7 months · Lower score = safer</p>
                 </div>
                 <div className="text-right">
                   <p className="text-gold font-bold text-2xl font-serif">{vendor.riskTrend[vendor.riskTrend.length - 1]}</p>
-                  <p className={`text-xs ${vendor.riskTrend[vendor.riskTrend.length-1] < vendor.riskTrend[0] ? "text-gold" : "text-white/40"}`}>
+                  <p className={`text-xs ${vendor.riskTrend[vendor.riskTrend.length-1] < vendor.riskTrend[0] ? "text-gold" : "text-black/40"}`}>
                     {vendor.riskTrend[vendor.riskTrend.length-1] < vendor.riskTrend[0] ? "↓ Improving" : "↑ Worsening"}
                   </p>
                 </div>
               </div>
               <TrendChart data={vendor.riskTrend}/>
-              <div className="flex justify-between text-[10px] text-white/25 mt-2 px-1">
+              <div className="flex justify-between text-[10px] text-black/25 mt-2 px-1">
                 {["7mo ago","6mo","5mo","4mo","3mo","2mo","Now"].map((l) => <span key={l}>{l}</span>)}
               </div>
             </div>
 
             {/* Detailed risk breakdown */}
             <div className="glass border border-white/5 rounded-2xl p-6">
-              <p className="text-white font-semibold mb-5">Detailed Risk Breakdown</p>
+              <p className="text-black font-semibold mb-5">Detailed Risk Breakdown</p>
               <div className="grid grid-cols-2 gap-4">
                 {[
                   {icon:"🏦",label:"Financial Stability",   score:vendor.financialStability,  desc:"Balance sheet, cash flow, debt ratios"},
@@ -188,8 +188,8 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-xl">{r.icon}</span>
                       <div>
-                        <p className="text-white text-xs font-semibold">{r.label}</p>
-                        <p className="text-white/30 text-[10px]">{r.desc}</p>
+                        <p className="text-black text-xs font-semibold">{r.label}</p>
+                        <p className="text-black/30 text-[10px]">{r.desc}</p>
                       </div>
                     </div>
                     <div className="flex items-end justify-between">
@@ -207,29 +207,29 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
 
             {/* Compliance */}
             <div className="glass border border-white/5 rounded-2xl p-6">
-              <p className="text-white font-semibold mb-4">Compliance & Certifications</p>
+              <p className="text-black font-semibold mb-4">Compliance & Certifications</p>
               {vendor.compliance.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
                   {vendor.compliance.map((c) => (
                     <div key={c} className="flex items-center gap-2 px-4 py-2 rounded-xl glass-gold border-gold">
                       <span className="text-gold text-xs">✓</span>
-                      <span className="text-white text-sm font-medium">{c}</span>
+                      <span className="text-black text-sm font-medium">{c}</span>
                     </div>
                   ))}
                 </div>
               ) : (
                 <div className="glass rounded-xl p-4 text-center">
-                  <p className="text-white/30 text-sm">⚠ No compliance certifications on record</p>
+                  <p className="text-black/30 text-sm">⚠ No compliance certifications on record</p>
                 </div>
               )}
             </div>
 
             {/* Specialties */}
             <div className="glass border border-white/5 rounded-2xl p-6">
-              <p className="text-white font-semibold mb-4">Specialties</p>
+              <p className="text-black font-semibold mb-4">Specialties</p>
               <div className="flex flex-wrap gap-2">
                 {vendor.specialty.map((s) => (
-                  <span key={s} className="px-3 py-1.5 rounded-lg glass border border-white/8 text-white/60 text-sm">{s}</span>
+                  <span key={s} className="px-3 py-1.5 rounded-lg glass border border-white/8 text-black/60 text-sm">{s}</span>
                 ))}
               </div>
             </div>
@@ -242,8 +242,8 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
             <span className="text-xl">✦</span>
           </div>
           <div className="flex-1">
-            <p className="text-white font-semibold text-sm">AI Risk Insight</p>
-            <p className="text-white/50 text-sm mt-1">
+            <p className="text-black font-semibold text-sm">AI Risk Insight</p>
+            <p className="text-black/50 text-sm mt-1">
               {vendor.riskLevel === "LOW"
                 ? `${vendor.name} shows strong fundamentals with ${vendor.yearsInBusiness} years of operational history and ${vendor.compliance.length} compliance certifications. Low risk for procurement engagement.`
                 : vendor.riskLevel === "MEDIUM"

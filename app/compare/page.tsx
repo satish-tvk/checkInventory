@@ -5,7 +5,7 @@ import Link from "next/link";
 import { MOCK_VENDORS, Vendor } from "@/lib/mockVendors";
 
 const riskColor = (level: "LOW" | "MEDIUM" | "HIGH") =>
-  level === "LOW" ? "text-gold" : level === "MEDIUM" ? "text-white/60" : "text-white/40";
+  level === "LOW" ? "text-gold" : level === "MEDIUM" ? "text-black/60" : "text-black/40";
 
 function ScoreBar({ value, max = 100 }: { value: number; max?: number }) {
   const pct = (value / max) * 100;
@@ -117,13 +117,13 @@ export default function ComparePage() {
         {/* Header */}
         <div className="mb-10">
           <span className="text-gold text-xs font-semibold tracking-widest uppercase">Vendor Comparison</span>
-          <h1 className="font-serif text-4xl lg:text-5xl font-bold text-white mt-2 mb-3">Compare Vendors</h1>
-          <p className="text-white/45 text-lg">Select up to 3 vendors to compare side by side.</p>
+          <h1 className="font-serif text-4xl lg:text-5xl font-bold text-black mt-2 mb-3">Compare Vendors</h1>
+          <p className="text-black/45 text-lg">Select up to 3 vendors to compare side by side.</p>
         </div>
 
         {/* Vendor selector */}
         <div className="glass border border-white/5 rounded-2xl p-5 mb-8">
-          <p className="text-white/50 text-sm mb-4">Select vendors to compare ({selected.length}/3 selected):</p>
+          <p className="text-black/50 text-sm mb-4">Select vendors to compare ({selected.length}/3 selected):</p>
           <div className="flex flex-wrap gap-2">
             {MOCK_VENDORS.map((v) => {
               const isSelected = selected.includes(v.id);
@@ -134,7 +134,7 @@ export default function ComparePage() {
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                     isSelected
                       ? "bg-gold text-navy-900 glow-gold-sm"
-                      : "glass border border-white/8 text-white/60 hover:text-white hover:border-gold/30"
+                      : "glass border border-white/8 text-black/60 hover:text-black hover:border-gold/30"
                   }`}
                 >
                   <span className="w-5 h-5 rounded-lg bg-white/10 flex items-center justify-center text-xs font-bold">
@@ -151,7 +151,7 @@ export default function ComparePage() {
         {compared.length < 2 ? (
           <div className="text-center py-24 glass border border-white/5 rounded-2xl">
             <p className="text-4xl mb-4">⚖️</p>
-            <p className="text-white/40 text-lg">Select at least 2 vendors to compare.</p>
+            <p className="text-black/40 text-lg">Select at least 2 vendors to compare.</p>
           </div>
         ) : (
           <>
@@ -168,10 +168,10 @@ export default function ComparePage() {
                     <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/20 flex items-center justify-center mx-auto mb-3">
                       <span className="font-serif text-2xl font-bold text-gold">{v.name[0]}</span>
                     </div>
-                    <h3 className="font-semibold text-white text-sm mb-1">{v.name}</h3>
-                    <p className="text-white/35 text-xs mb-3">{v.category}</p>
+                    <h3 className="font-semibold text-black text-sm mb-1">{v.name}</h3>
+                    <p className="text-black/35 text-xs mb-3">{v.category}</p>
                     <p className={`text-xs font-bold ${riskColor(v.riskLevel)}`}>{v.riskLevel} RISK</p>
-                    <p className="text-white/25 text-[10px] mt-1">{wins} metric{wins !== 1 ? "s" : ""} won</p>
+                    <p className="text-black/25 text-[10px] mt-1">{wins} metric{wins !== 1 ? "s" : ""} won</p>
                     <Link href={`/vendors/${v.id}`} className="block mt-3 text-xs text-gold/60 hover:text-gold transition-colors">View Full Profile →</Link>
                   </div>
                 );
@@ -183,11 +183,11 @@ export default function ComparePage() {
               {/* Table header */}
               <div className={`grid border-b border-white/5 ${compared.length === 2 ? "grid-cols-3" : "grid-cols-4"}`}>
                 <div className="px-6 py-4">
-                  <p className="text-white/30 text-xs uppercase tracking-widest">Metric</p>
+                  <p className="text-black/30 text-xs uppercase tracking-widest">Metric</p>
                 </div>
                 {compared.map((v) => (
                   <div key={v.id} className="px-6 py-4 border-l border-white/5 text-center">
-                    <p className="text-white font-semibold text-sm">{v.name}</p>
+                    <p className="text-black font-semibold text-sm">{v.name}</p>
                   </div>
                 ))}
               </div>
@@ -196,13 +196,13 @@ export default function ComparePage() {
               {metrics.map((m, idx) => (
                 <div key={m.label} className={`grid border-b border-white/5 last:border-b-0 ${compared.length === 2 ? "grid-cols-3" : "grid-cols-4"} ${idx % 2 === 0 ? "" : "bg-white/[0.015]"}`}>
                   <div className="px-6 py-5">
-                    <p className="text-white/70 text-sm font-medium">{m.label}</p>
-                    <p className="text-white/30 text-xs mt-0.5">{m.desc}</p>
+                    <p className="text-black/70 text-sm font-medium">{m.label}</p>
+                    <p className="text-black/30 text-xs mt-0.5">{m.desc}</p>
                   </div>
                   {compared.map((v) => (
                     <div key={v.id} className="px-6 py-5 border-l border-white/5">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-white font-semibold text-sm">{m.getValue(v)}</span>
+                        <span className="text-black font-semibold text-sm">{m.getValue(v)}</span>
                         {m.winner === v.id && compared.length > 1 && <WinnerBadge label={m.winnerLabel}/>}
                       </div>
                       <ScoreBar value={m.getBar(v)}/>
@@ -214,8 +214,8 @@ export default function ComparePage() {
               {/* Compliance row */}
               <div className={`grid border-t border-white/5 ${compared.length === 2 ? "grid-cols-3" : "grid-cols-4"}`}>
                 <div className="px-6 py-5">
-                  <p className="text-white/70 text-sm font-medium">Certifications</p>
-                  <p className="text-white/30 text-xs mt-0.5">Active compliance</p>
+                  <p className="text-black/70 text-sm font-medium">Certifications</p>
+                  <p className="text-black/30 text-xs mt-0.5">Active compliance</p>
                 </div>
                 {compared.map((v) => (
                   <div key={v.id} className="px-6 py-5 border-l border-white/5">
@@ -226,7 +226,7 @@ export default function ComparePage() {
                         ))}
                       </div>
                     ) : (
-                      <span className="text-white/25 text-xs italic">None on record</span>
+                      <span className="text-black/25 text-xs italic">None on record</span>
                     )}
                   </div>
                 ))}
@@ -239,8 +239,8 @@ export default function ComparePage() {
                 <div className="flex items-start gap-4">
                   <span className="text-2xl shrink-0">✦</span>
                   <div>
-                    <p className="text-white font-semibold mb-1">AI Recommendation</p>
-                    <p className="text-white/55 text-sm leading-relaxed">
+                    <p className="text-black font-semibold mb-1">AI Recommendation</p>
+                    <p className="text-black/55 text-sm leading-relaxed">
                       Based on the comparison, <strong className="text-gold">{lowestRisk?.name}</strong> ranks as the lowest-risk option with a score of <strong className="text-gold">{lowestRisk?.riskScore}/100</strong>.
                       {bestReliability?.id !== lowestRisk?.id
                         ? ` However, <strong>${bestReliability?.name}</strong> offers the highest reliability at ${bestReliability?.reliabilityScore}%.`

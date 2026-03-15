@@ -166,7 +166,7 @@ export const TESTIMONIALS = [
   {
     id: "1",
     quote:
-      "VendorIQ identified three high-risk suppliers before they caused a major disruption. The AI risk scoring is incredibly accurate and saved us millions.",
+      "OneStopSMB identified three high-risk suppliers before they caused a major disruption. The AI risk scoring is incredibly accurate and saved us millions.",
     author: "Sarah Chen",
     title: "Chief Procurement Officer",
     company: "NexGen Manufacturing",

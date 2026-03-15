@@ -86,7 +86,7 @@ export default function UploadForm({ onAudit, loading }: UploadFormProps) {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <span className="text-white/40 text-xs">Accepts .csv files up to 10 rows</span>
+        <span className="text-black/40 text-xs">Accepts .csv files up to 10 rows</span>
         <button
           type="button"
           onClick={handleDownloadSample}
@@ -118,20 +118,20 @@ export default function UploadForm({ onAudit, loading }: UploadFormProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <p className="text-white font-medium text-sm">{fileName}</p>
+            <p className="text-black font-medium text-sm">{fileName}</p>
             <p className="text-gold text-xs mt-1">File loaded — running audit…</p>
           </>
         ) : (
           <>
             <div className="w-12 h-12 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6 text-black/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
               </svg>
             </div>
-            <p className="text-white/60 text-sm font-medium">
+            <p className="text-black/60 text-sm font-medium">
               {loading ? "Processing…" : "Drop your CSV here or click to browse"}
             </p>
-            <p className="text-white/25 text-xs mt-1.5">CSV · max 10 suppliers · columns: name, category, spend_pct, country</p>
+            <p className="text-black/25 text-xs mt-1.5">CSV · max 10 suppliers · columns: name, category, spend_pct, country</p>
           </>
         )}
         <input

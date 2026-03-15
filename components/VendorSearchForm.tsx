@@ -103,7 +103,7 @@ export default function VendorSearchForm({ onAudit, loading }: VendorSearchFormP
     <div className="space-y-6">
       <form onSubmit={handleSearch} className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="md:col-span-2">
-          <label className="block text-white/60 text-xs font-semibold uppercase tracking-widest mb-1.5">
+          <label className="block text-black/60 text-xs font-semibold uppercase tracking-widest mb-1.5">
             Business Category <span className="text-red-400">*</span>
           </label>
           <input
@@ -111,13 +111,13 @@ export default function VendorSearchForm({ onAudit, loading }: VendorSearchFormP
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             placeholder="e.g., Electronics, Catering, Logistics"
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-gold/50 focus:ring-1 focus:ring-gold/50 transition-all"
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-black placeholder:text-black/20 focus:outline-none focus:border-gold/50 focus:ring-1 focus:ring-gold/50 transition-all"
             required
           />
         </div>
 
         <div>
-          <label className="block text-white/60 text-xs font-semibold uppercase tracking-widest mb-1.5">
+          <label className="block text-black/60 text-xs font-semibold uppercase tracking-widest mb-1.5">
             Country <span className="text-red-400">*</span>
           </label>
           <select
@@ -127,7 +127,7 @@ export default function VendorSearchForm({ onAudit, loading }: VendorSearchFormP
               setStateCode("");
               setCityName("");
             }}
-            className="w-full appearance-none bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold/50 transition-all"
+            className="w-full appearance-none bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-black text-sm focus:outline-none focus:border-gold/50 transition-all"
           >
             {countries.map((c) => (
               <option key={c.isoCode} value={c.isoCode} className="bg-navy-900">
@@ -138,7 +138,7 @@ export default function VendorSearchForm({ onAudit, loading }: VendorSearchFormP
         </div>
 
         <div>
-          <label className="block text-white/60 text-xs font-semibold uppercase tracking-widest mb-1.5">
+          <label className="block text-black/60 text-xs font-semibold uppercase tracking-widest mb-1.5">
             State / Province <span className="text-red-400">*</span>
           </label>
           <select
@@ -148,9 +148,9 @@ export default function VendorSearchForm({ onAudit, loading }: VendorSearchFormP
               setCityName("");
             }}
             disabled={states.length === 0}
-            className="w-full appearance-none bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold/50 transition-all disabled:opacity-50"
+            className="w-full appearance-none bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-black text-sm focus:outline-none focus:border-gold/50 transition-all disabled:opacity-50"
           >
-            <option value="" className="bg-navy-900 text-white/40">
+            <option value="" className="bg-navy-900 text-black/40">
               {states.length === 0 ? "No states available" : "Select state..."}
             </option>
             {states.map((s) => (
@@ -162,16 +162,16 @@ export default function VendorSearchForm({ onAudit, loading }: VendorSearchFormP
         </div>
 
         <div className="md:col-span-2">
-          <label className="block text-white/60 text-xs font-semibold uppercase tracking-widest mb-1.5">
+          <label className="block text-black/60 text-xs font-semibold uppercase tracking-widest mb-1.5">
             City (Optional)
           </label>
           <select
             value={cityName}
             onChange={(e) => setCityName(e.target.value)}
             disabled={!stateCode || cities.length === 0}
-            className="w-full appearance-none bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-gold/50 transition-all disabled:opacity-50"
+            className="w-full appearance-none bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-black text-sm focus:outline-none focus:border-gold/50 transition-all disabled:opacity-50"
           >
-            <option value="" className="bg-navy-900 text-white/40">
+            <option value="" className="bg-navy-900 text-black/40">
               {!stateCode ? "Select state first" : cities.length === 0 ? "No cities available" : "Select city (optional)..."}
             </option>
             {cities.map((c) => (
@@ -186,7 +186,7 @@ export default function VendorSearchForm({ onAudit, loading }: VendorSearchFormP
           <button
             type="submit"
             disabled={isSearchDisabled || isSearching || loading}
-            className="w-full bg-white/10 hover:bg-white/15 text-white font-medium py-3.5 rounded-xl border border-white/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            className="w-full bg-white/10 hover:bg-white/15 text-black font-medium py-3.5 rounded-xl border border-white/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {isSearching ? (
               <>
@@ -205,7 +205,7 @@ export default function VendorSearchForm({ onAudit, loading }: VendorSearchFormP
       {results.length > 0 && (
         <div className="mt-8">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-semibold flex items-center gap-2">
+            <h3 className="text-black font-semibold flex items-center gap-2">
               Found {results.length} Vendors
               <span className="bg-gold/20 text-gold text-xs px-2 py-0.5 rounded-full">{selectedIds.size} selected</span>
             </h3>
@@ -231,8 +231,8 @@ export default function VendorSearchForm({ onAudit, loading }: VendorSearchFormP
                   />
                 </div>
                 <div className="flex-1">
-                  <p className="text-white font-medium mb-1">{place.name}</p>
-                  <p className="text-white/50 text-xs mb-2 leading-relaxed">{place.address}</p>
+                  <p className="text-black font-medium mb-1">{place.name}</p>
+                  <p className="text-black/50 text-xs mb-2 leading-relaxed">{place.address}</p>
                 </div>
               </label>
             ))}

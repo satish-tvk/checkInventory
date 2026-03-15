@@ -5,7 +5,7 @@ JSON lists (multi-select fields) are stored as serialised text in SQLite.
 import json
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, Integer, String, Text
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.types import TypeDecorator
 
 from database import Base
@@ -45,6 +45,7 @@ class BusinessProfile(Base):
 
     id         = Column(Integer, primary_key=True, index=True, autoincrement=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    user_id    = Column(Integer, ForeignKey("users.id"), nullable=True, index=True)
 
     # ── Step 1: Business Identity ──────────────────────────────────────────────
     business_name    = Column(String(255), nullable=False)
@@ -89,3 +90,17 @@ class BusinessProfile(Base):
             f"<BusinessProfile id={self.id} name={self.business_name!r} "
             f"archetype={self.business_archetype!r}>"
         )
+
+
+class User(Base):
+    """Stores login credentials for onboarded users."""
+
+    __tablename__ = "users"
+
+    id              = Column(Integer,     primary_key=True, index=True, autoincrement=True)
+    username        = Column(String(100), unique=True, nullable=False, index=True)
+    hashed_password = Column(String(255), nullable=False)
+    created_at      = Column(DateTime,    default=datetime.utcnow, nullable=False)
+
+    def __repr__(self) -> str:
+        return f"<User id={self.id} username={self.username!r}>"

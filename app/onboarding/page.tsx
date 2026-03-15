@@ -3,6 +3,8 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Country, State, City } from "country-state-city";
+import { useAuth } from "@/contexts/AuthContext";
+import type { UserProfile } from "@/contexts/AuthContext";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -187,16 +189,16 @@ function OptionCard({ selected, onClick, label, desc, icon }: {
       className={`w-full text-left px-4 py-3.5 rounded-xl border transition-all ${
         selected
           ? "bg-gold/10 border-gold/50 ring-1 ring-gold/20"
-          : "bg-white/[0.04] border-white/8 hover:border-white/20 hover:bg-white/[0.07]"
+          : "bg-white/60 border-ink/10 hover:border-brand/20 hover:bg-white/80"
       }`}>
       <div className="flex items-center gap-3">
         {icon && <span className="text-lg leading-none shrink-0">{icon}</span>}
         <div className="flex-1 min-w-0">
-          <p className={`font-medium text-sm ${selected ? "text-gold" : "text-white/85"}`}>{label}</p>
-          {desc && <p className="text-white/35 text-xs mt-0.5">{desc}</p>}
+          <p className={`font-medium text-sm ${selected ? "text-gold" : "text-ink"}`}>{label}</p>
+          {desc && <p className="text-ink-faint text-xs mt-0.5">{desc}</p>}
         </div>
         <div className={`w-4 h-4 rounded-full border-2 shrink-0 flex items-center justify-center transition-all ${
-          selected ? "border-gold bg-gold" : "border-white/20"
+          selected ? "border-gold bg-gold" : "border-ink-subtle"
         }`}>
           {selected && <div className="w-1.5 h-1.5 rounded-full bg-navy-900" />}
         </div>
@@ -213,11 +215,11 @@ function CheckCard({ selected, onClick, label, icon }: {
       className={`w-full text-left px-3.5 py-3 rounded-xl border transition-all ${
         selected
           ? "bg-gold/10 border-gold/40 ring-1 ring-gold/15"
-          : "bg-white/[0.03] border-white/8 hover:border-white/18 hover:bg-white/[0.06]"
+          : "bg-white/60 border-ink/10 hover:border-brand/20 hover:bg-white/80"
       }`}>
       <div className="flex items-center gap-2.5">
         <div className={`w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-all ${
-          selected ? "bg-gold border-gold" : "border-white/25"
+          selected ? "bg-gold border-gold" : "border-ink-subtle"
         }`}>
           {selected && (
             <svg className="w-2.5 h-2.5 text-navy-900" fill="currentColor" viewBox="0 0 20 20">
@@ -226,7 +228,7 @@ function CheckCard({ selected, onClick, label, icon }: {
           )}
         </div>
         {icon && <span className="text-base leading-none">{icon}</span>}
-        <span className={`text-sm font-medium ${selected ? "text-gold" : "text-white/70"}`}>{label}</span>
+        <span className={`text-sm font-medium ${selected ? "text-gold" : "text-ink-muted"}`}>{label}</span>
       </div>
     </button>
   );
@@ -238,20 +240,20 @@ function TextInput({ label, value, onChange, placeholder, type = "text", optiona
 }) {
   return (
     <div>
-      <label className="flex items-center gap-2 text-white/50 text-xs font-semibold uppercase tracking-widest mb-2">
+      <label className="flex items-center gap-2 text-ink-muted text-xs font-semibold uppercase tracking-widest mb-2">
         {label}
-        {optional && <span className="text-white/25 font-normal normal-case tracking-normal">— optional</span>}
+        {optional && <span className="text-ink-subtle font-normal normal-case tracking-normal">— optional</span>}
       </label>
       <input type={type} value={value} onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full px-4 py-3 rounded-xl bg-white/[0.06] border border-white/10 text-white placeholder-white/25 text-sm focus:outline-none focus:border-gold/50 focus:bg-white/[0.08] transition-all" />
+        className="w-full px-4 py-3 rounded-xl bg-white border border-ink/10 text-ink placeholder-ink-subtle text-sm focus:outline-none focus:border-gold/50 focus:bg-white transition-all" />
     </div>
   );
 }
 
 // ── Progress bar ───────────────────────────────────────────────────────────────
 
-const STEP_LABELS = ["Identity", "Scale", "Supply Chain", "Challenges", "Goals"];
+const STEP_LABELS = ["Identity", "Scale", "Supply Chain", "Challenges", "Goals", "Account"];
 
 function ProgressBar({ current, total }: { current: number; total: number }) {
   return (
@@ -266,7 +268,7 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
               <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all ${
                 done ? "bg-gold border-gold text-navy-900"
                 : active ? "border-gold text-gold bg-gold/10"
-                : "border-white/15 text-white/25"
+                : "border-ink-subtle text-ink-subtle"
               }`}>
                 {done ? (
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -275,17 +277,17 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
                 ) : n}
               </div>
               <span className={`text-[10px] font-medium hidden sm:block ${
-                active ? "text-gold" : done ? "text-white/50" : "text-white/20"
+                active ? "text-gold" : done ? "text-ink-muted" : "text-ink-subtle"
               }`}>{label}</span>
             </div>
           );
         })}
       </div>
-      <div className="relative h-1 bg-white/5 rounded-full overflow-hidden">
+      <div className="relative h-1 bg-ink/10 rounded-full overflow-hidden">
         <div className="absolute inset-y-0 left-0 bg-gold rounded-full transition-all duration-500"
           style={{ width: `${((current - 1) / (total - 1)) * 100}%` }} />
       </div>
-      <p className="text-white/25 text-xs mt-2 text-right">Step {current} of {total}</p>
+      <p className="text-ink-subtle text-xs mt-2 text-right">Step {current} of {total}</p>
     </div>
   );
 }
@@ -308,7 +310,7 @@ function Step1({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
   );
 
   const chevron = (
-    <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-faint pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
     </svg>
   );
@@ -317,31 +319,31 @@ function Step1({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
     <div className="space-y-6">
       <div>
         <span className="text-gold text-xs font-semibold tracking-widest uppercase">Step 1</span>
-        <h2 className="font-serif text-3xl font-bold text-white mt-1">Business Identity</h2>
-        <p className="text-white/40 text-sm mt-2">Tell us who you are and what your business does.</p>
+        <h2 className="font-serif text-3xl font-bold text-ink mt-1">Business Identity</h2>
+        <p className="text-ink-faint text-sm mt-2">Tell us who you are and what your business does.</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <TextInput label="Business Name" value={data.businessName} onChange={(v) => update({ businessName: v })} placeholder="Acme Supply Co." />
         <TextInput label="Your Name"     value={data.ownerName}    onChange={(v) => update({ ownerName: v })}    placeholder="Jane Smith" />
       </div>
       <div>
-        <label className="block text-white/50 text-xs font-semibold uppercase tracking-widest mb-2">Industry</label>
+        <label className="block text-ink-muted text-xs font-semibold uppercase tracking-widest mb-2">Industry</label>
         <div className="relative">
           <select value={data.industry} onChange={(e) => update({ industry: e.target.value })}
-            className="w-full appearance-none px-4 py-3 rounded-xl bg-white/[0.06] border border-white/10 text-white text-sm focus:outline-none focus:border-gold/50 transition-all">
-            <option value="" className="bg-navy-900 text-white/40">Select your industry…</option>
-            {INDUSTRIES.map((ind) => <option key={ind} value={ind} className="bg-navy-900">{ind}</option>)}
+            className="w-full appearance-none px-4 py-3 rounded-xl bg-white border border-ink/10 text-ink text-sm focus:outline-none focus:border-gold/50 transition-all">
+            <option value="">Select your industry…</option>
+            {INDUSTRIES.map((ind) => <option key={ind} value={ind}>{ind}</option>)}
           </select>
           {chevron}
         </div>
         {data.industry === "Other" && (
           <input type="text" value={data.customIndustry} onChange={(e) => update({ customIndustry: e.target.value })}
             placeholder="Describe your industry…"
-            className="mt-2 w-full px-4 py-3 rounded-xl bg-white/[0.06] border border-white/10 text-white placeholder-white/25 text-sm focus:outline-none focus:border-gold/50 transition-all" />
+            className="mt-2 w-full px-4 py-3 rounded-xl bg-white border border-ink/10 text-ink placeholder-ink-subtle text-sm focus:outline-none focus:border-gold/50 transition-all" />
         )}
       </div>
       <div>
-        <label className="block text-white/50 text-xs font-semibold uppercase tracking-widest mb-3">Business Structure</label>
+        <label className="block text-ink-muted text-xs font-semibold uppercase tracking-widest mb-3">Business Structure</label>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           {BUSINESS_TYPES.map((bt) => (
             <OptionCard key={bt.value} selected={data.businessType === bt.value}
@@ -354,20 +356,20 @@ function Step1({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
 
       {/* ── Business Address ─────────────────────────────────────────────────── */}
       <div>
-        <label className="flex items-center gap-2 text-white/50 text-xs font-semibold uppercase tracking-widest mb-1">
+        <label className="flex items-center gap-2 text-ink-muted text-xs font-semibold uppercase tracking-widest mb-1">
           Business Address
-          <span className="text-white/25 font-normal normal-case tracking-normal">— optional</span>
+          <span className="text-ink-subtle font-normal normal-case tracking-normal">— optional</span>
         </label>
-        <p className="text-white/25 text-xs mb-3">Saves your location so Vendor Discovery is pre-filled for you.</p>
+        <p className="text-ink-subtle text-xs mb-3">Saves your location so Vendor Discovery is pre-filled for you.</p>
         <div className="space-y-3">
           {/* Country */}
           <div className="relative">
             <select
               value={data.addressCountry}
               onChange={(e) => update({ addressCountry: e.target.value, addressState: "", addressCity: "" })}
-              className="w-full appearance-none px-4 py-3 rounded-xl bg-white/[0.06] border border-white/10 text-white text-sm focus:outline-none focus:border-gold/50 transition-all">
+              className="w-full appearance-none px-4 py-3 rounded-xl bg-white border border-ink/10 text-ink text-sm focus:outline-none focus:border-gold/50 transition-all">
               {allCountries.map((c) => (
-                <option key={c.isoCode} value={c.isoCode} className="bg-navy-900">{c.flag} {c.name}</option>
+                <option key={c.isoCode} value={c.isoCode}>{c.flag} {c.name}</option>
               ))}
             </select>
             {chevron}
@@ -379,12 +381,12 @@ function Step1({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
                 value={data.addressState}
                 onChange={(e) => update({ addressState: e.target.value, addressCity: "" })}
                 disabled={states.length === 0}
-                className="w-full appearance-none px-4 py-3 rounded-xl bg-white/[0.06] border border-white/10 text-white text-sm focus:outline-none focus:border-gold/50 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
-                <option value="" className="bg-navy-900 text-white/40">
+                className="w-full appearance-none px-4 py-3 rounded-xl bg-white border border-ink/10 text-ink text-sm focus:outline-none focus:border-gold/50 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+                <option value="">
                   {states.length === 0 ? "No states available" : "State / Province…"}
                 </option>
                 {states.map((s) => (
-                  <option key={s.isoCode} value={s.isoCode} className="bg-navy-900">{s.name}</option>
+                  <option key={s.isoCode} value={s.isoCode}>{s.name}</option>
                 ))}
               </select>
               {chevron}
@@ -394,12 +396,12 @@ function Step1({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
                 value={data.addressCity}
                 onChange={(e) => update({ addressCity: e.target.value })}
                 disabled={!data.addressState || cities.length === 0}
-                className="w-full appearance-none px-4 py-3 rounded-xl bg-white/[0.06] border border-white/10 text-white text-sm focus:outline-none focus:border-gold/50 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
-                <option value="" className="bg-navy-900 text-white/40">
+                className="w-full appearance-none px-4 py-3 rounded-xl bg-white border border-ink/10 text-ink text-sm focus:outline-none focus:border-gold/50 transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+                <option value="">
                   {!data.addressState ? "Select state first" : cities.length === 0 ? "No cities available" : "City…"}
                 </option>
                 {cities.map((c) => (
-                  <option key={`${c.name}-${c.stateCode}`} value={c.name} className="bg-navy-900">{c.name}</option>
+                  <option key={`${c.name}-${c.stateCode}`} value={c.name}>{c.name}</option>
                 ))}
               </select>
               {chevron}
@@ -411,7 +413,7 @@ function Step1({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
               <svg className="w-3.5 h-3.5 text-gold/50 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0zM19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
               </svg>
-              <span className="text-white/35 text-xs">
+              <span className="text-ink-faint text-xs">
                 {[data.addressCity, states.find((s) => s.isoCode === data.addressState)?.name, allCountries.find((c) => c.isoCode === data.addressCountry)?.name]
                   .filter(Boolean).join(", ")}
               </span>
@@ -430,11 +432,11 @@ function Step2({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
     <div className="space-y-6">
       <div>
         <span className="text-gold text-xs font-semibold tracking-widest uppercase">Step 2</span>
-        <h2 className="font-serif text-3xl font-bold text-white mt-1">Business Scale</h2>
-        <p className="text-white/40 text-sm mt-2">Help us understand the size and stage of your business.</p>
+        <h2 className="font-serif text-3xl font-bold text-ink mt-1">Business Scale</h2>
+        <p className="text-ink-faint text-sm mt-2">Help us understand the size and stage of your business.</p>
       </div>
       <div>
-        <label className="block text-white/50 text-xs font-semibold uppercase tracking-widest mb-3">Years in Operation</label>
+        <label className="block text-ink-muted text-xs font-semibold uppercase tracking-widest mb-3">Years in Operation</label>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           {YEARS_OPTIONS.map((opt) => (
             <OptionCard key={opt.value} selected={data.yearsInOperation === opt.value}
@@ -443,7 +445,7 @@ function Step2({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
         </div>
       </div>
       <div>
-        <label className="block text-white/50 text-xs font-semibold uppercase tracking-widest mb-3">Number of Employees</label>
+        <label className="block text-ink-muted text-xs font-semibold uppercase tracking-widest mb-3">Number of Employees</label>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
           {EMPLOYEE_OPTIONS.map((opt) => (
             <OptionCard key={opt.value} selected={data.employeeCount === opt.value}
@@ -452,7 +454,7 @@ function Step2({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
         </div>
       </div>
       <div>
-        <label className="block text-white/50 text-xs font-semibold uppercase tracking-widest mb-3">Annual Revenue</label>
+        <label className="block text-ink-muted text-xs font-semibold uppercase tracking-widest mb-3">Annual Revenue</label>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           {REVENUE_OPTIONS.map((opt) => (
             <OptionCard key={opt.value} selected={data.annualRevenue === opt.value}
@@ -461,7 +463,7 @@ function Step2({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
         </div>
       </div>
       <div>
-        <label className="block text-white/50 text-xs font-semibold uppercase tracking-widest mb-3">Operating Locations</label>
+        <label className="block text-ink-muted text-xs font-semibold uppercase tracking-widest mb-3">Operating Locations</label>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           {LOCATION_OPTIONS.map((opt) => (
             <OptionCard key={opt.value} selected={data.operatingLocations === opt.value}
@@ -490,11 +492,11 @@ function Step3({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
     <div className="space-y-6">
       <div>
         <span className="text-gold text-xs font-semibold tracking-widest uppercase">Step 3</span>
-        <h2 className="font-serif text-3xl font-bold text-white mt-1">Supply Chain Profile</h2>
-        <p className="text-white/40 text-sm mt-2">Tell us about your supplier network and procurement setup.</p>
+        <h2 className="font-serif text-3xl font-bold text-ink mt-1">Supply Chain Profile</h2>
+        <p className="text-ink-faint text-sm mt-2">Tell us about your supplier network and procurement setup.</p>
       </div>
       <div>
-        <label className="block text-white/50 text-xs font-semibold uppercase tracking-widest mb-3">Active Supplier Count</label>
+        <label className="block text-ink-muted text-xs font-semibold uppercase tracking-widest mb-3">Active Supplier Count</label>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           {SUPPLIER_COUNT_OPTIONS.map((opt) => (
             <OptionCard key={opt.value} selected={data.supplierCount === opt.value}
@@ -503,9 +505,9 @@ function Step3({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
         </div>
       </div>
       <div>
-        <label className="flex items-center gap-2 text-white/50 text-xs font-semibold uppercase tracking-widest mb-1">
+        <label className="flex items-center gap-2 text-ink-muted text-xs font-semibold uppercase tracking-widest mb-1">
           Procurement Categories
-          <span className="text-white/25 font-normal normal-case tracking-normal">— select all that apply</span>
+          <span className="text-ink-subtle font-normal normal-case tracking-normal">— select all that apply</span>
         </label>
         {data.procurementCategories.length > 0 && <p className="text-gold/70 text-xs mb-2">{data.procurementCategories.length} selected</p>}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -515,7 +517,7 @@ function Step3({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
         </div>
       </div>
       <div>
-        <label className="block text-white/50 text-xs font-semibold uppercase tracking-widest mb-3">Monthly Procurement Spend</label>
+        <label className="block text-ink-muted text-xs font-semibold uppercase tracking-widest mb-3">Monthly Procurement Spend</label>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           {SPEND_OPTIONS.map((opt) => (
             <OptionCard key={opt.value} selected={data.monthlySpend === opt.value}
@@ -524,9 +526,9 @@ function Step3({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
         </div>
       </div>
       <div>
-        <label className="flex items-center gap-2 text-white/50 text-xs font-semibold uppercase tracking-widest mb-1">
+        <label className="flex items-center gap-2 text-ink-muted text-xs font-semibold uppercase tracking-widest mb-1">
           Sourcing Regions
-          <span className="text-white/25 font-normal normal-case tracking-normal">— where do you source from?</span>
+          <span className="text-ink-subtle font-normal normal-case tracking-normal">— where do you source from?</span>
         </label>
         {data.sourcingRegions.length > 0 && <p className="text-gold/70 text-xs mb-2">{data.sourcingRegions.length} selected</p>}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -551,13 +553,13 @@ function Step4({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
     <div className="space-y-6">
       <div>
         <span className="text-gold text-xs font-semibold tracking-widest uppercase">Step 4</span>
-        <h2 className="font-serif text-3xl font-bold text-white mt-1">Risk & Challenges</h2>
-        <p className="text-white/40 text-sm mt-2">Understanding your biggest pain points helps us tailor your experience.</p>
+        <h2 className="font-serif text-3xl font-bold text-ink mt-1">Risk & Challenges</h2>
+        <p className="text-ink-faint text-sm mt-2">Understanding your biggest pain points helps us tailor your experience.</p>
       </div>
       <div>
-        <label className="flex items-center gap-2 text-white/50 text-xs font-semibold uppercase tracking-widest mb-1">
+        <label className="flex items-center gap-2 text-ink-muted text-xs font-semibold uppercase tracking-widest mb-1">
           Top Supply Chain Concerns
-          <span className="text-white/25 font-normal normal-case tracking-normal">— select all that apply</span>
+          <span className="text-ink-subtle font-normal normal-case tracking-normal">— select all that apply</span>
         </label>
         {data.supplyChainConcerns.length > 0 && <p className="text-gold/70 text-xs mb-2">{data.supplyChainConcerns.length} concern{data.supplyChainConcerns.length !== 1 ? "s" : ""} selected</p>}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -568,7 +570,7 @@ function Step4({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
         </div>
       </div>
       <div>
-        <label className="block text-white/50 text-xs font-semibold uppercase tracking-widest mb-3">How Do You Currently Track Supplier Risk?</label>
+        <label className="block text-ink-muted text-xs font-semibold uppercase tracking-widest mb-3">How Do You Currently Track Supplier Risk?</label>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           {RISK_METHODS.map((m) => (
             <OptionCard key={m.value} selected={data.currentRiskMethod === m.value}
@@ -577,13 +579,13 @@ function Step4({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
         </div>
       </div>
       <div>
-        <label className="flex items-center gap-2 text-white/50 text-xs font-semibold uppercase tracking-widest mb-2">
+        <label className="flex items-center gap-2 text-ink-muted text-xs font-semibold uppercase tracking-widest mb-2">
           Describe Your Biggest Pain Point
-          <span className="text-white/25 font-normal normal-case tracking-normal">— optional</span>
+          <span className="text-ink-subtle font-normal normal-case tracking-normal">— optional</span>
         </label>
         <textarea value={data.biggestPainPoint} onChange={(e) => update({ biggestPainPoint: e.target.value })}
           rows={3} placeholder="e.g. I have no visibility into whether my key suppliers are financially healthy before it's too late…"
-          className="w-full px-4 py-3 rounded-xl bg-white/[0.06] border border-white/10 text-white placeholder-white/25 text-sm focus:outline-none focus:border-gold/50 transition-all resize-none leading-relaxed" />
+          className="w-full px-4 py-3 rounded-xl bg-white border border-ink/10 text-ink placeholder-ink-subtle text-sm focus:outline-none focus:border-gold/50 transition-all resize-none leading-relaxed" />
       </div>
     </div>
   );
@@ -601,13 +603,13 @@ function Step5({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
     <div className="space-y-6">
       <div>
         <span className="text-gold text-xs font-semibold tracking-widest uppercase">Step 5</span>
-        <h2 className="font-serif text-3xl font-bold text-white mt-1">Your Goals</h2>
-        <p className="text-white/40 text-sm mt-2">What do you most want to achieve with VendorIQ?</p>
+        <h2 className="font-serif text-3xl font-bold text-ink mt-1">Your Goals</h2>
+        <p className="text-ink-faint text-sm mt-2">What do you most want to achieve with OneStopSMB?</p>
       </div>
       <div>
-        <label className="flex items-center gap-2 text-white/50 text-xs font-semibold uppercase tracking-widest mb-1">
+        <label className="flex items-center gap-2 text-ink-muted text-xs font-semibold uppercase tracking-widest mb-1">
           Primary Goals
-          <span className="text-white/25 font-normal normal-case tracking-normal">— select all that matter</span>
+          <span className="text-ink-subtle font-normal normal-case tracking-normal">— select all that matter</span>
         </label>
         {data.primaryGoals.length > 0 && <p className="text-gold/70 text-xs mb-2">{data.primaryGoals.length} goal{data.primaryGoals.length !== 1 ? "s" : ""} selected</p>}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -618,14 +620,14 @@ function Step5({ data, update }: { data: OnboardingData; update: (d: Partial<Onb
         </div>
       </div>
       <div>
-        <label className="block text-white/50 text-xs font-semibold uppercase tracking-widest mb-2">How Did You Hear About VendorIQ?</label>
+        <label className="block text-ink-muted text-xs font-semibold uppercase tracking-widest mb-2">How Did You Hear About OneStopSMB?</label>
         <div className="relative">
           <select value={data.howHeard} onChange={(e) => update({ howHeard: e.target.value })}
-            className="w-full appearance-none px-4 py-3 rounded-xl bg-white/[0.06] border border-white/10 text-white text-sm focus:outline-none focus:border-gold/50 transition-all">
-            <option value="" className="bg-navy-900 text-white/40">Select an option…</option>
-            {HOW_HEARD_OPTIONS.map((opt) => <option key={opt} value={opt} className="bg-navy-900">{opt}</option>)}
+            className="w-full appearance-none px-4 py-3 rounded-xl bg-white border border-ink/10 text-ink text-sm focus:outline-none focus:border-gold/50 transition-all">
+            <option value="">Select an option…</option>
+            {HOW_HEARD_OPTIONS.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
           </select>
-          <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-faint pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </div>
@@ -678,8 +680,8 @@ function CompletionScreen({ data, profile }: { data: OnboardingData; profile: Pr
             <div className="absolute inset-0 rounded-full animate-ping bg-gold/10" style={{ animationDuration: "2.5s" }} />
           </div>
         </div>
-        <h2 className="font-serif text-4xl font-bold text-white">Welcome aboard, {firstName}!</h2>
-        <p className="text-white/40 text-base mt-2">
+        <h2 className="font-serif text-4xl font-bold text-ink">Welcome aboard, {firstName}!</h2>
+        <p className="text-ink-faint text-base mt-2">
           Profile saved · ID <span className="text-gold/70 font-mono">#{profile.id}</span>
         </p>
       </div>
@@ -691,9 +693,9 @@ function CompletionScreen({ data, profile }: { data: OnboardingData; profile: Pr
             {c.archetype_icon}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-1">Business Type</p>
+            <p className="text-ink-faint text-xs font-semibold uppercase tracking-widest mb-1">Business Type</p>
             <h3 className="font-serif text-2xl font-bold text-gold">{c.business_archetype}</h3>
-            <p className="text-white/55 text-sm leading-relaxed mt-2">{c.archetype_description}</p>
+            <p className="text-ink-muted text-sm leading-relaxed mt-2">{c.archetype_description}</p>
           </div>
         </div>
       </div>
@@ -702,40 +704,40 @@ function CompletionScreen({ data, profile }: { data: OnboardingData; profile: Pr
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
         {/* Supply chain complexity */}
-        <div className="glass border border-white/8 rounded-2xl p-5">
-          <p className="text-white/35 text-xs font-semibold uppercase tracking-widest mb-3">Supply Chain Complexity</p>
+        <div className="glass border border-ink/10 rounded-2xl p-5">
+          <p className="text-ink-faint text-xs font-semibold uppercase tracking-widest mb-3">Supply Chain Complexity</p>
           <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-bold mb-3 ${cmpxCls}`}>
             {c.supply_chain_complexity}
           </div>
-          <p className="text-white/45 text-xs leading-relaxed">{c.complexity_description}</p>
+          <p className="text-ink-muted text-xs leading-relaxed">{c.complexity_description}</p>
         </div>
 
         {/* Risk profile */}
-        <div className="glass border border-white/8 rounded-2xl p-5">
-          <p className="text-white/35 text-xs font-semibold uppercase tracking-widest mb-3">Risk Profile</p>
+        <div className="glass border border-ink/10 rounded-2xl p-5">
+          <p className="text-ink-faint text-xs font-semibold uppercase tracking-widest mb-3">Risk Profile</p>
           <div className="flex items-center gap-3 mb-3">
             <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm font-bold ${riskCls}`}>
               {c.risk_profile}
             </div>
-            <span className="text-white/30 text-xs font-mono">{c.risk_score}/100</span>
+            <span className="text-ink-faint text-xs font-mono">{c.risk_score}/100</span>
           </div>
           {/* Mini risk bar */}
-          <div className="h-1.5 rounded-full bg-white/5 mb-3">
+          <div className="h-1.5 rounded-full bg-ink/10 mb-3">
             <div className={`h-full rounded-full transition-all ${
               c.risk_score >= 75 ? "bg-red-400" : c.risk_score >= 50 ? "bg-orange-400" : c.risk_score >= 25 ? "bg-yellow-400" : "bg-emerald-400"
             }`} style={{ width: `${c.risk_score}%` }} />
           </div>
-          <p className="text-white/45 text-xs leading-relaxed">{c.risk_description}</p>
+          <p className="text-ink-muted text-xs leading-relaxed">{c.risk_description}</p>
         </div>
       </div>
 
       {/* ── AI key insight ─────────────────────────────────────────────────── */}
-      <div className="glass border border-white/8 rounded-2xl p-5">
+      <div className="glass border border-ink/10 rounded-2xl p-5">
         <div className="flex items-start gap-3">
           <span className="text-xl shrink-0 mt-0.5">✦</span>
           <div>
-            <p className="text-white font-semibold text-sm mb-1">Key Insight</p>
-            <p className="text-white/50 text-sm leading-relaxed">{c.key_insight}</p>
+            <p className="text-ink font-semibold text-sm mb-1">Key Insight</p>
+            <p className="text-ink-muted text-sm leading-relaxed">{c.key_insight}</p>
           </div>
         </div>
       </div>
@@ -743,14 +745,14 @@ function CompletionScreen({ data, profile }: { data: OnboardingData; profile: Pr
       {/* ── Recommended features ───────────────────────────────────────────── */}
       {c.recommended_features.length > 0 && (
         <div>
-          <p className="text-white/30 text-xs uppercase tracking-widest mb-3">Recommended for your profile</p>
+          <p className="text-ink-faint text-xs uppercase tracking-widest mb-3">Recommended for your profile</p>
           <div className="space-y-2">
             {c.recommended_features.map((feat, i) => (
-              <div key={i} className="flex items-start gap-3 px-4 py-3 glass border border-white/[0.06] rounded-xl">
+              <div key={i} className="flex items-start gap-3 px-4 py-3 glass border border-ink/[0.06] rounded-xl">
                 <div className="w-5 h-5 rounded-full bg-gold/15 border border-gold/30 text-gold text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
                   {i + 1}
                 </div>
-                <p className="text-white/60 text-sm">{feat}</p>
+                <p className="text-ink-muted text-sm">{feat}</p>
               </div>
             ))}
           </div>
@@ -759,24 +761,110 @@ function CompletionScreen({ data, profile }: { data: OnboardingData; profile: Pr
 
       {/* ── Next steps ─────────────────────────────────────────────────────── */}
       <div>
-        <p className="text-white/30 text-xs uppercase tracking-widest mb-3">Get started</p>
+        <p className="text-ink-faint text-xs uppercase tracking-widest mb-3">Get started</p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {RECOMMENDED_LINKS.map((link) => (
             <Link key={link.href} href={link.href}
-              className="glass border border-white/8 hover:border-gold/30 rounded-2xl p-4 flex flex-col items-center gap-2 transition-all hover:bg-gold/5 group text-center">
+              className="glass border border-ink/10 hover:border-gold/30 rounded-2xl p-4 flex flex-col items-center gap-2 transition-all hover:bg-gold/5 group text-center">
               <div className="w-10 h-10 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center text-xl">
                 {link.icon}
               </div>
-              <p className="text-white text-sm font-semibold group-hover:text-gold transition-colors">{link.label}</p>
-              <p className="text-white/30 text-xs">{link.desc}</p>
+              <p className="text-ink text-sm font-semibold group-hover:text-gold transition-colors">{link.label}</p>
+              <p className="text-ink-faint text-xs">{link.desc}</p>
             </Link>
           ))}
         </div>
       </div>
 
-      <p className="text-center text-white/20 text-sm">
-        <Link href="/" className="hover:text-white/50 transition-colors">← Back to home</Link>
+      <p className="text-center text-ink-subtle text-sm">
+        <Link href="/" className="hover:text-ink-muted transition-colors">← Back to home</Link>
       </p>
+    </div>
+  );
+}
+
+// ── Step 6 — Create Account ────────────────────────────────────────────────────
+
+function Step6({ creds, setCreds }: {
+  creds: { username: string; password: string; confirmPassword: string };
+  setCreds: (patch: Partial<typeof creds>) => void;
+}) {
+  const [showPwd,     setShowPwd]     = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <span className="text-gold text-xs font-semibold tracking-widest uppercase">Step 6</span>
+        <h2 className="font-serif text-3xl font-bold text-ink mt-1">Create Your Account</h2>
+        <p className="text-ink-faint text-sm mt-2">Set up your login credentials to access your profile anytime.</p>
+      </div>
+
+      {/* Username */}
+      <div>
+        <label className="block text-ink-muted text-xs font-semibold uppercase tracking-widest mb-2">Username</label>
+        <input type="text" value={creds.username}
+          onChange={(e) => setCreds({ username: e.target.value })}
+          placeholder="e.g. johndoe"
+          autoComplete="username"
+          className="w-full px-4 py-3 rounded-xl bg-white border border-ink/10 text-ink placeholder-ink-subtle text-sm focus:outline-none focus:border-gold/50 transition-colors" />
+        <p className="text-ink-subtle text-xs mt-1.5">Lowercase letters, numbers, and hyphens only.</p>
+      </div>
+
+      {/* Password */}
+      <div>
+        <label className="block text-ink-muted text-xs font-semibold uppercase tracking-widest mb-2">Password</label>
+        <div className="relative">
+          <input type={showPwd ? "text" : "password"} value={creds.password}
+            onChange={(e) => setCreds({ password: e.target.value })}
+            placeholder="Min. 8 characters"
+            autoComplete="new-password"
+            className="w-full px-4 py-3 pr-11 rounded-xl bg-white border border-ink/10 text-ink placeholder-ink-subtle text-sm focus:outline-none focus:border-gold/50 transition-colors" />
+          <button type="button" onClick={() => setShowPwd((p) => !p)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-faint hover:text-ink-muted transition-colors">
+            {showPwd ? (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+              </svg>
+            ) : (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Confirm password */}
+      <div>
+        <label className="block text-ink-muted text-xs font-semibold uppercase tracking-widest mb-2">Confirm Password</label>
+        <div className="relative">
+          <input type={showConfirm ? "text" : "password"} value={creds.confirmPassword}
+            onChange={(e) => setCreds({ confirmPassword: e.target.value })}
+            placeholder="Re-enter your password"
+            autoComplete="new-password"
+            className="w-full px-4 py-3 pr-11 rounded-xl bg-white border border-ink/10 text-ink placeholder-ink-subtle text-sm focus:outline-none focus:border-gold/50 transition-colors" />
+          <button type="button" onClick={() => setShowConfirm((p) => !p)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-faint hover:text-ink-muted transition-colors">
+            {showConfirm ? (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+              </svg>
+            ) : (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            )}
+          </button>
+        </div>
+      </div>
+
+      <div className="glass border border-ink/10 rounded-xl px-4 py-3 flex items-start gap-3">
+        <svg className="w-4 h-4 text-gold/60 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+        </svg>
+        <p className="text-ink-faint text-xs leading-relaxed">Your password is encrypted with bcrypt before being stored. We never store it in plain text.</p>
+      </div>
     </div>
   );
 }
@@ -813,13 +901,25 @@ function validateStep(step: number, data: OnboardingData): string | null {
   return null;
 }
 
+function validateCreds(creds: { username: string; password: string; confirmPassword: string }): string | null {
+  if (!creds.username.trim())        return "Please choose a username.";
+  if (!/^[a-z0-9-_]+$/.test(creds.username.trim().toLowerCase()))
+    return "Username may only contain letters, numbers, hyphens, and underscores.";
+  if (creds.password.length < 8)     return "Password must be at least 8 characters.";
+  if (creds.password !== creds.confirmPassword) return "Passwords do not match.";
+  return null;
+}
+
 // ── Main page ──────────────────────────────────────────────────────────────────
 
-const TOTAL_STEPS = 5;
+const TOTAL_STEPS = 6;
 
 export default function OnboardingPage() {
+  const { login, setProfile } = useAuth();
+
   const [step,          setStep]          = useState(1);
   const [data,          setData]          = useState<OnboardingData>(INITIAL);
+  const [creds,         setCreds]         = useState({ username: "", password: "", confirmPassword: "" });
   const [error,         setError]         = useState<string | null>(null);
   const [submitting,    setSubmitting]     = useState(false);
   const [profileResult, setProfileResult] = useState<ProfileResult | null>(null);
@@ -829,8 +929,14 @@ export default function OnboardingPage() {
     setError(null);
   }
 
+  function updateCreds(patch: Partial<typeof creds>) {
+    setCreds((prev) => ({ ...prev, ...patch }));
+    setError(null);
+  }
+
   async function handleNext() {
-    const err = validateStep(step, data);
+    // Validate step 1-5 with profile data, step 6 with credentials
+    const err = step < TOTAL_STEPS ? validateStep(step, data) : validateCreds(creds);
     if (err) { setError(err); return; }
     setError(null);
 
@@ -840,21 +946,46 @@ export default function OnboardingPage() {
       return;
     }
 
-    // Final step — submit to Python backend via Next.js proxy
+    // Final step — register account then save profile
     setSubmitting(true);
     try {
-      const res  = await fetch("/api/onboarding", {
+      // 1. Register user account
+      const regRes  = await fetch("/api/auth/register", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify(data),
+        body:    JSON.stringify({ username: creds.username.trim().toLowerCase(), password: creds.password }),
       });
-      const json = await res.json() as ProfileResult & { error?: string };
-      if (!res.ok) throw new Error(json.error ?? "Failed to save your profile.");
-      setProfileResult(json);
-      // Persist address so Vendor Discovery is pre-filled
+      const regJson = await regRes.json();
+      if (!regRes.ok) throw new Error(regJson.detail ?? regJson.error ?? "Failed to create account.");
+
+      // Store auth session
+      login({ token: regJson.token, user_id: regJson.user_id, username: regJson.username });
+
+      // 2. Submit business profile (linked to the new user account)
+      const profRes  = await fetch("/api/onboarding", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json" },
+        body:    JSON.stringify({ ...data, user_id: regJson.user_id }),
+      });
+      const profJson = await profRes.json() as ProfileResult & { error?: string };
+      if (!profRes.ok) throw new Error(profJson.error ?? "Failed to save your profile.");
+
+      // Store lightweight profile in auth context for personalisation
+      setProfile({
+        id:                     profJson.id,
+        business_name:          profJson.business_name,
+        owner_name:             profJson.owner_name,
+        industry:               profJson.industry,
+        business_archetype:     profJson.business_archetype,
+        risk_profile:           profJson.risk_profile,
+        risk_score:             profJson.risk_score,
+        procurement_categories: data.procurementCategories,
+      } as UserProfile);
+
+      setProfileResult(profJson);
       if (data.addressState) {
         localStorage.setItem(
-          "vendoriq_business_address",
+          "onestopsmb_business_address",
           JSON.stringify({ countryCode: data.addressCountry, stateCode: data.addressState, cityName: data.addressCity }),
         );
       }
@@ -890,20 +1021,20 @@ export default function OnboardingPage() {
 
         {/* Page header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 glass border border-white/8 rounded-full mb-5">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 glass border border-ink/10 rounded-full mb-5">
             <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
             <span className="text-gold text-xs font-semibold tracking-widest uppercase">Business Profile Setup</span>
           </div>
-          <h1 className="font-serif text-4xl lg:text-5xl font-bold text-white">
+          <h1 className="font-serif text-4xl lg:text-5xl font-bold text-ink">
             Let's get to know your business
           </h1>
-          <p className="text-white/40 text-lg mt-3 max-w-md mx-auto">
-            5 quick steps to personalise VendorIQ for your supply chain needs.
+          <p className="text-ink-faint text-lg mt-3 max-w-md mx-auto">
+            6 quick steps to personalise OneStopSMB for your supply chain needs.
           </p>
         </div>
 
         {/* Main card */}
-        <div className="glass border border-white/8 rounded-3xl p-8">
+        <div className="glass border border-ink/10 rounded-3xl p-8">
           <ProgressBar current={step} total={TOTAL_STEPS} />
 
           {step === 1 && <Step1 data={data} update={update} />}
@@ -911,6 +1042,7 @@ export default function OnboardingPage() {
           {step === 3 && <Step3 data={data} update={update} />}
           {step === 4 && <Step4 data={data} update={update} />}
           {step === 5 && <Step5 data={data} update={update} />}
+          {step === 6 && <Step6 creds={creds} setCreds={updateCreds} />}
 
           {/* Validation / submission error */}
           {error && (
@@ -918,14 +1050,14 @@ export default function OnboardingPage() {
               <svg className="w-4 h-4 text-red-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
               </svg>
-              <p className="text-red-300/80 text-sm">{error}</p>
+              <p className="text-red-600 text-sm">{error}</p>
             </div>
           )}
 
           {/* Navigation */}
-          <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/[0.06]">
+          <div className="flex items-center justify-between mt-8 pt-6 border-t border-ink/10">
             <button type="button" onClick={handleBack} disabled={step === 1}
-              className="flex items-center gap-2 px-5 py-2.5 glass border border-white/10 rounded-xl text-sm text-white/50 hover:text-white/80 hover:border-white/20 transition-all disabled:opacity-0 disabled:pointer-events-none">
+              className="flex items-center gap-2 px-5 py-2.5 glass border border-ink/10 rounded-xl text-sm text-ink-muted hover:text-ink hover:border-ink/20 transition-all disabled:opacity-0 disabled:pointer-events-none">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
@@ -941,7 +1073,7 @@ export default function OnboardingPage() {
                 </>
               ) : step === TOTAL_STEPS ? (
                 <>
-                  Complete Setup
+                  Create Account &amp; Complete
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
@@ -958,9 +1090,9 @@ export default function OnboardingPage() {
           </div>
         </div>
 
-        <p className="text-center mt-5 text-white/20 text-sm">
+        <p className="text-center mt-5 text-ink-subtle text-sm">
           Already set up?{" "}
-          <Link href="/vendors/discover" className="text-white/40 hover:text-gold transition-colors underline underline-offset-2">
+          <Link href="/vendors/discover" className="text-ink-faint hover:text-gold transition-colors underline underline-offset-2">
             Skip to Vendor Discovery
           </Link>
         </p>

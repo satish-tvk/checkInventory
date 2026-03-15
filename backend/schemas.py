@@ -43,6 +43,9 @@ class ProfileCreate(BaseModel):
     primaryGoals: List[str] = Field(default_factory=list)
     howHeard:     str = ""
 
+    # Auth link
+    user_id: Optional[int] = None
+
 
 # ── Classification output ─────────────────────────────────────────────────────
 
@@ -91,5 +94,36 @@ class ProfileSummary(BaseModel):
     supply_chain_complexity:  Optional[str]
     risk_profile:             Optional[str]
     risk_score:               Optional[int]
+
+    model_config = {"from_attributes": True}
+
+
+# ── Auth schemas ──────────────────────────────────────────────────────────────
+
+class UserRegister(BaseModel):
+    username: str
+    password: str
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
+
+class TokenResponse(BaseModel):
+    token:    str
+    user_id:  int
+    username: str
+
+
+# ── Personalisation profile (lightweight, includes procurement categories) ────
+
+class ProfilePersonal(BaseModel):
+    id:                  int
+    business_name:       str
+    owner_name:          str
+    industry:            str
+    business_archetype:  Optional[str]
+    risk_profile:        Optional[str]
+    risk_score:          Optional[int]
+    procurement_categories: List[str]
 
     model_config = {"from_attributes": True}

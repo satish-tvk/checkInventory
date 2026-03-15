@@ -1,5 +1,5 @@
 """
-VendorIQ — Business Profile API
+OneStopSMB — Business Profile API
 --------------------------------
 FastAPI application backed by SQLAlchemy ORM + SQLite.
 
@@ -15,9 +15,11 @@ Endpoints:
 """
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 from typing import List
 
+import auth
 import classifier
 import database
 import models
@@ -26,13 +28,21 @@ import schemas
 # ── App setup ─────────────────────────────────────────────────────────────────
 
 app = FastAPI(
-    title="VendorIQ Business Profile API",
+    title="OneStopSMB Business Profile API",
     version="1.0.0",
     description="Stores onboarding questionnaires and classifies business types.",
 )
 
 # Ensure all tables exist on startup
 models.Base.metadata.create_all(bind=database.engine)
+
+# Add user_id column to existing business_profiles tables (idempotent migration)
+with database.engine.connect() as _conn:
+    try:
+        _conn.execute(text("ALTER TABLE business_profiles ADD COLUMN user_id INTEGER REFERENCES users(id)"))
+        _conn.commit()
+    except Exception:
+        pass  # Column already exists
 
 # Allow Next.js dev server and production origin
 app.add_middleware(
@@ -73,6 +83,7 @@ def create_profile(
     store the computed archetype/complexity/risk, and return the full result.
     """
     profile = models.BusinessProfile(
+        user_id                = body.user_id,
         business_name          = body.businessName.strip(),
         owner_name             = body.ownerName.strip(),
         industry               = body.industry,
@@ -170,6 +181,56 @@ def delete_profile(
         raise HTTPException(status_code=404, detail="Profile not found.")
     db.delete(profile)
     db.commit()
+
+
+@app.post("/api/auth/register", response_model=schemas.TokenResponse, status_code=201)
+def register(body: schemas.UserRegister, db: Session = Depends(database.get_db)):
+    """Register a new user with a username and bcrypt-hashed password."""
+    body.username = body.username.strip().lower()
+    if not body.username or not body.password:
+        raise HTTPException(status_code=400, detail="Username and password are required.")
+    if db.query(models.User).filter(models.User.username == body.username).first():
+        raise HTTPException(status_code=400, detail="Username already taken.")
+    user = models.User(username=body.username, hashed_password=auth.hash_password(body.password))
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return schemas.TokenResponse(
+        token=auth.create_token(user.id, user.username),
+        user_id=user.id,
+        username=user.username,
+    )
+
+
+@app.post("/api/auth/login", response_model=schemas.TokenResponse)
+def login(body: schemas.UserLogin, db: Session = Depends(database.get_db)):
+    """Validate credentials and return a JWT token."""
+    body.username = body.username.strip().lower()
+    user = db.query(models.User).filter(models.User.username == body.username).first()
+    if not user or not auth.verify_password(body.password, user.hashed_password):
+        raise HTTPException(status_code=401, detail="Invalid username or password.")
+    return schemas.TokenResponse(
+        token=auth.create_token(user.id, user.username),
+        user_id=user.id,
+        username=user.username,
+    )
+
+
+@app.get("/api/profiles/user/{user_id}", response_model=schemas.ProfilePersonal)
+def get_profile_by_user(
+    user_id: int,
+    db:      Session = Depends(database.get_db),
+):
+    """Return the most recent business profile for a given user_id."""
+    profile = (
+        db.query(models.BusinessProfile)
+        .filter(models.BusinessProfile.user_id == user_id)
+        .order_by(models.BusinessProfile.created_at.desc())
+        .first()
+    )
+    if not profile:
+        raise HTTPException(status_code=404, detail="No profile found for this user.")
+    return profile
 
 
 @app.get("/health")

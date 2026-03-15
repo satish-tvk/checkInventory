@@ -4,7 +4,7 @@ SQLAlchemy + SQLite engine, session factory, and declarative Base.
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-DATABASE_URL = "sqlite:///./vendoriq.db"
+DATABASE_URL = "sqlite:///./onestopsmb.db"
 
 engine = create_engine(
     DATABASE_URL,

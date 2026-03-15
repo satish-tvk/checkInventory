@@ -314,7 +314,7 @@ def _insight(
     if archetype == "Global Sourcer":
         return (
             f"Sourcing from {len(regions)} regions creates geopolitical and logistical exposure. "
-            "VendorIQ monitors political stability, financial health, and compliance "
+            "OneStopSMB monitors political stability, financial health, and compliance "
             "across your international supplier network."
         )
 

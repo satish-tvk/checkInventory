@@ -4,58 +4,74 @@ const footerCols = [
   {
     title: "Product",
     links: [
-      { label: "Vendor Discovery", href: "/vendors/discover" },
+      { label: "Vendor Discovery",   href: "/vendors/discover" },
       { label: "Competitor Analysis", href: "/competitors" },
-      { label: "Risk Audit", href: "/audit" },
-      { label: "Get Profiled", href: "/onboarding" },
+      { label: "Risk Audit",          href: "/audit" },
+      { label: "Onboarding",          href: "/onboarding" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "About", href: "#" },
-      { label: "Blog", href: "#" },
-      { label: "Careers", href: "#" },
-      { label: "Contact", href: "#" },
+      { label: "About",    href: "#" },
+      { label: "Blog",     href: "#" },
+      { label: "Careers",  href: "#" },
+      { label: "Contact",  href: "#" },
     ],
   },
   {
     title: "Legal",
     links: [
-      { label: "Privacy Policy", href: "#" },
-      { label: "Terms of Service", href: "#" },
-      { label: "Security", href: "#" },
-      { label: "Cookies", href: "#" },
+      { label: "Privacy",   href: "#" },
+      { label: "Terms",     href: "#" },
+      { label: "Security",  href: "#" },
+      { label: "Cookies",   href: "#" },
     ],
   },
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-navy-950 border-t border-white/5">
+    <footer style={{ background: "linear-gradient(135deg, #0B1426 0%, #0D2060 100%)" }}>
       <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-12">
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-2.5 mb-5">
-              <div className="w-8 h-8 rounded-lg bg-gold flex items-center justify-center">
-                <span className="text-navy-900 text-sm font-bold">V</span>
+
+        <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1fr] gap-12">
+          {/* Brand */}
+          <div>
+            <Link href="/" className="inline-flex items-center gap-2.5 mb-5">
+              <div className="w-[28px] h-[28px] rounded-[6px] bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center">
+                <span className="text-black text-[12px] font-black">O</span>
               </div>
-              <span className="font-serif text-xl font-bold text-white">
-                Vendor<span className="text-gold">IQ</span>
+              <span className="font-serif text-[17px] font-semibold text-black">
+                OneStop<span className="text-brand-300">SMB</span>
               </span>
-            </div>
-            <p className="text-white/40 text-sm leading-relaxed max-w-xs">
-              AI-powered vendor risk intelligence for modern businesses. Discover faster, validate better, decide with confidence.
+            </Link>
+            <p className="text-black/35 text-sm leading-relaxed max-w-[210px]">
+              AI-powered vendor risk intelligence for modern procurement teams.
             </p>
+            {/* Color accent dots */}
+            <div className="flex gap-2 mt-6">
+              <span className="w-2.5 h-2.5 rounded-full bg-brand-400 opacity-80" />
+              <span className="w-2.5 h-2.5 rounded-full bg-teal-400 opacity-80" />
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-400 opacity-80" />
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400 opacity-80" />
+              <span className="w-2.5 h-2.5 rounded-full bg-sky-400 opacity-80" />
+            </div>
           </div>
 
+          {/* Link columns */}
           {footerCols.map((col) => (
             <div key={col.title}>
-              <h4 className="text-white text-sm font-semibold mb-4 tracking-wide">{col.title}</h4>
-              <ul className="space-y-2.5">
+              <h4 className="text-black/30 text-[10px] font-semibold uppercase tracking-[0.18em] mb-4">
+                {col.title}
+              </h4>
+              <ul className="space-y-3">
                 {col.links.map((link) => (
                   <li key={link.label}>
-                    <Link href={link.href} className="text-white/35 text-sm hover:text-gold transition-colors duration-150">
+                    <Link
+                      href={link.href}
+                      className="text-black/40 text-sm hover:text-black/85 transition-colors duration-150"
+                    >
                       {link.label}
                     </Link>
                   </li>
@@ -65,9 +81,11 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="mt-14 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-white/25 text-xs">© 2026 VendorIQ Inc. All rights reserved.</p>
-          <p className="text-white/15 text-xs">Powered by AI · Built for modern procurement</p>
+        <div className="mt-16 pt-8 border-t border-white/[0.07] flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-black/20 text-xs">© 2026 OneStopSMB Inc.</p>
+          <p className="text-black/15 text-[11px] tracking-widest uppercase">
+            AI · Procurement Intelligence
+          </p>
         </div>
       </div>
     </footer>

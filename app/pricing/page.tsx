@@ -108,16 +108,16 @@ export default function PricingPage() {
         {/* Header */}
         <div className="text-center mb-16">
           <span className="text-gold text-xs font-semibold tracking-widest uppercase">Pricing</span>
-          <h1 className="font-serif text-5xl lg:text-6xl font-bold text-white mt-3 mb-4">
+          <h1 className="font-serif text-5xl lg:text-6xl font-bold text-black mt-3 mb-4">
             Simple, Transparent Pricing
           </h1>
-          <p className="text-white/45 text-xl max-w-lg mx-auto">
+          <p className="text-black/45 text-xl max-w-lg mx-auto">
             Start free. Scale as you grow. No hidden fees, no surprise bills.
           </p>
           {/* Toggle (visual only) */}
           <div className="inline-flex items-center gap-1 glass border border-white/8 rounded-full px-1.5 py-1.5 mt-8">
             <button className="px-5 py-2 rounded-full bg-gold text-navy-900 text-sm font-semibold">Monthly</button>
-            <button className="px-5 py-2 rounded-full text-white/50 text-sm font-medium hover:text-white transition-colors">
+            <button className="px-5 py-2 rounded-full text-black/50 text-sm font-medium hover:text-black transition-colors">
               Annual <span className="text-gold text-xs ml-1">-20%</span>
             </button>
           </div>
@@ -142,14 +142,14 @@ export default function PricingPage() {
 
               {/* Plan name & price */}
               <div className="mb-8">
-                <p className={`text-sm font-semibold tracking-wide mb-2 ${plan.highlight ? "text-gold" : "text-white/50"}`}>
+                <p className={`text-sm font-semibold tracking-wide mb-2 ${plan.highlight ? "text-gold" : "text-black/50"}`}>
                   {plan.name}
                 </p>
                 <div className="flex items-end gap-1 mb-3">
-                  <span className="font-serif text-5xl font-bold text-white">{plan.price}</span>
-                  {plan.period && <span className="text-white/35 text-base mb-2">{plan.period}</span>}
+                  <span className="font-serif text-5xl font-bold text-black">{plan.price}</span>
+                  {plan.period && <span className="text-black/35 text-base mb-2">{plan.period}</span>}
                 </div>
-                <p className="text-white/40 text-sm leading-relaxed">{plan.desc}</p>
+                <p className="text-black/40 text-sm leading-relaxed">{plan.desc}</p>
               </div>
 
               {/* CTA */}
@@ -158,7 +158,7 @@ export default function PricingPage() {
                 className={`block text-center px-6 py-3.5 rounded-xl text-sm font-semibold transition-all mb-8 ${
                   plan.highlight
                     ? "bg-gold text-navy-900 hover:bg-gold-300 glow-gold-sm"
-                    : "glass border-gold text-white hover:bg-white/5"
+                    : "glass border-gold text-black hover:bg-white/5"
                 }`}
               >
                 {plan.cta}
@@ -169,17 +169,17 @@ export default function PricingPage() {
 
               {/* Features */}
               <div className="space-y-3 flex-1">
-                <p className="text-white/30 text-xs uppercase tracking-widest mb-4">What&apos;s included</p>
+                <p className="text-black/30 text-xs uppercase tracking-widest mb-4">What&apos;s included</p>
                 {plan.features.map((f) => (
                   <div key={f} className="flex items-start gap-3">
                     <span className="text-gold mt-0.5 shrink-0">✓</span>
-                    <span className="text-white/65 text-sm">{f}</span>
+                    <span className="text-black/65 text-sm">{f}</span>
                   </div>
                 ))}
                 {plan.notIncluded.map((f) => (
                   <div key={f} className="flex items-start gap-3 opacity-40">
-                    <span className="text-white/30 mt-0.5 shrink-0">✗</span>
-                    <span className="text-white/40 text-sm line-through">{f}</span>
+                    <span className="text-black/30 mt-0.5 shrink-0">✗</span>
+                    <span className="text-black/40 text-sm line-through">{f}</span>
                   </div>
                 ))}
               </div>
@@ -189,13 +189,13 @@ export default function PricingPage() {
 
         {/* Feature comparison table */}
         <div className="mb-20">
-          <h2 className="font-serif text-3xl font-bold text-white text-center mb-10">Full Feature Comparison</h2>
+          <h2 className="font-serif text-3xl font-bold text-black text-center mb-10">Full Feature Comparison</h2>
           <div className="glass border border-white/5 rounded-2xl overflow-hidden">
             <div className="grid grid-cols-4 border-b border-white/5 bg-white/[0.02]">
-              <div className="px-6 py-4 text-white/30 text-xs uppercase tracking-widest">Feature</div>
+              <div className="px-6 py-4 text-black/30 text-xs uppercase tracking-widest">Feature</div>
               {["Starter","Professional","Enterprise"].map((p) => (
                 <div key={p} className="px-6 py-4 text-center border-l border-white/5">
-                  <p className="text-white font-semibold text-sm">{p}</p>
+                  <p className="text-black font-semibold text-sm">{p}</p>
                 </div>
               ))}
             </div>
@@ -213,10 +213,10 @@ export default function PricingPage() {
               {feature:"Support",               vals:["Email","Priority chat","Dedicated"]},
             ].map((row, i) => (
               <div key={row.feature} className={`grid grid-cols-4 border-b border-white/5 last:border-b-0 ${i % 2 === 0 ? "" : "bg-white/[0.015]"}`}>
-                <div className="px-6 py-4 text-white/55 text-sm">{row.feature}</div>
+                <div className="px-6 py-4 text-black/55 text-sm">{row.feature}</div>
                 {row.vals.map((v, j) => (
                   <div key={j} className="px-6 py-4 text-center border-l border-white/5">
-                    <span className={`text-sm ${v === "✗" ? "text-white/20" : v === "✓" ? "text-gold" : "text-white/70"}`}>{v}</span>
+                    <span className={`text-sm ${v === "✗" ? "text-black/20" : v === "✓" ? "text-gold" : "text-black/70"}`}>{v}</span>
                   </div>
                 ))}
               </div>
@@ -226,12 +226,12 @@ export default function PricingPage() {
 
         {/* FAQ */}
         <div className="max-w-3xl mx-auto mb-20">
-          <h2 className="font-serif text-3xl font-bold text-white text-center mb-10">Frequently Asked Questions</h2>
+          <h2 className="font-serif text-3xl font-bold text-black text-center mb-10">Frequently Asked Questions</h2>
           <div className="space-y-4">
             {faqs.map((faq) => (
               <div key={faq.q} className="glass border border-white/5 rounded-xl p-6 hover:border-gold/20 transition-colors">
-                <p className="text-white font-semibold text-sm mb-2">{faq.q}</p>
-                <p className="text-white/45 text-sm leading-relaxed">{faq.a}</p>
+                <p className="text-black font-semibold text-sm mb-2">{faq.q}</p>
+                <p className="text-black/45 text-sm leading-relaxed">{faq.a}</p>
               </div>
             ))}
           </div>
@@ -239,11 +239,11 @@ export default function PricingPage() {
 
         {/* CTA */}
         <div className="text-center glass-gold border-gold rounded-3xl p-12 glow-gold">
-          <h2 className="font-serif text-4xl font-bold text-white mb-4">Ready to protect your supply chain?</h2>
-          <p className="text-white/45 text-lg mb-8">Start your 14-day free trial today. No credit card required.</p>
+          <h2 className="font-serif text-4xl font-bold text-black mb-4">Ready to protect your supply chain?</h2>
+          <p className="text-black/45 text-lg mb-8">Start your 14-day free trial today. No credit card required.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/audit"  className="px-8 py-3.5 rounded-xl bg-gold text-navy-900 font-bold text-sm hover:bg-gold-300 transition-all glow-gold-sm">Start Free Trial</Link>
-            <Link href="#"       className="px-8 py-3.5 rounded-xl glass border-gold text-white font-semibold text-sm hover:bg-white/5 transition-all">Talk to Sales</Link>
+            <Link href="#"       className="px-8 py-3.5 rounded-xl glass border-gold text-black font-semibold text-sm hover:bg-white/5 transition-all">Talk to Sales</Link>
           </div>
         </div>
 
