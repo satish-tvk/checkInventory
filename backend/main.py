@@ -45,9 +45,21 @@ with database.engine.connect() as _conn:
         pass  # Column already exists
 
 # Allow Next.js dev server and production origin
+import os
+
+ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+# Add production Cloudflare domain if set
+_prod_origin = os.environ.get("FRONTEND_URL")
+if _prod_origin:
+    ALLOWED_ORIGINS.append(_prod_origin)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type"],
 )
